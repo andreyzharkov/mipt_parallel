@@ -4,8 +4,6 @@
 
 #include "game_field.h"
 
-
-
 std::vector<std::pair<int, int> > split_field(game_field field, int n_threads){
 	std::vector<int> ends;
 	int sz  = field.field.size();

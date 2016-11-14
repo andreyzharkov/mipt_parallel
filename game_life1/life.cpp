@@ -15,46 +15,6 @@
 int n, m;
 bool is_test = true;
 
-game_field next(game_field prev){
-	std::vector<std::vector<unsigned char> > field(n, 
-		std::vector<unsigned char>(m));
-	for (int i = 0; i < n; i++){
-		for (int j = 0; j < m; j++){
-			int neighbours = 0;
-			for (int ii = -1; ii <= 1; ++ii)
-				for (int jj = -1; jj <= 1; ++jj)
-					neighbours += prev.get(i + ii, j + jj);
-			if (prev.get(i, j) == 0){
-				if (neighbours == 3) field[i][j] = 1;
-				else field[i][j] = 0;
-			}
-			else{
-				neighbours -= 1;
-				if (neighbours >= 2 && neighbours <=3) field[i][j] = 1;
-				else field[i][j] = 0;
-			}
-		}
-	}
-	return game_field(field);
-}
-
-game_field generate_start_field(){
-	std::vector<std::vector<unsigned char> > field(n, 
-		std::vector<unsigned char>(m, rand() % 2));
-	for (int i = 0; i < n; ++i)
-		for (int j = 0; j < m; ++j)
-			field[i][j] = rand() % 2;
-	return game_field(field);
-}
-
-game_field simple_life(game_field& initial, int n_iter){
-	game_field curr_field = initial;
-	for (int i = 0; i < n_iter; ++i){
-		curr_field = next(curr_field);
-	}
-	return curr_field;
-}
-
 int main(int argc, char** argv) {
 	srand((unsigned int) time(0));
 	
@@ -74,7 +34,7 @@ int main(int argc, char** argv) {
 	
 	if (n > m) std::swap(n, m);
 	
-	game_field initial_field = generate_start_field();
+	game_field initial_field = generate_start_field(n, m);
 	
 	//////////////////
 	//////////////////
