@@ -7,6 +7,8 @@
 
 #include "game_field.h"
 
+bool is_test = true;
+
 int n, m, n_iter, n_threads;
 game_field initial_field;
 game_field res_field;
@@ -142,12 +144,14 @@ int main(int argc, char** argv){
 	if (rank == 0){
 		srand(time(NULL));
 		initial_field = generate_start_field(n, m);
-		//initial_field.print();
-		double t = MPI_Wtime();
-		res_field = simple_life(initial_field, n_iter);
-		//res_field.print();
-		t = MPI_Wtime() - t;
-		std::cout << "non-parallel time: " << t << std::endl;
+		if (!is_test){
+			//initial_field.print();
+			double t = MPI_Wtime();
+			res_field = simple_life(initial_field, n_iter);
+			//res_field.print();
+			t = MPI_Wtime() - t;
+			std::cout << "non-parallel time: " << t << std::endl;
+		}
 	}
 	MPI_Barrier(MPI_COMM_WORLD);
 	if (rank == 0){
@@ -155,9 +159,15 @@ int main(int argc, char** argv){
 		game_field res = master_func();
 		//res.print();
 		t = MPI_Wtime() - t;
-		std::cout << "mpi time: " << t << std::endl;
 		
-		assert(res_field.field == res.field);
+		if (!is_test){
+			std::cout << "mpi time: " << t << std::endl;
+			
+			assert(res_field.field == res.field);
+		}
+		else {
+			std::cout << t;
+		}
 	}
 	else {
 		slave_func(rank);
