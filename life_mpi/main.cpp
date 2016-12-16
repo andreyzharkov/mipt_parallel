@@ -147,10 +147,10 @@ int main(int argc, char** argv){
 		if (!is_test){
 			//initial_field.print();
 			double t = MPI_Wtime();
-			res_field = simple_life(initial_field, n_iter);
+			//res_field = simple_life(initial_field, n_iter);
 			//res_field.print();
-			t = MPI_Wtime() - t;
-			std::cout << "non-parallel time: " << t << std::endl;
+			//t = MPI_Wtime() - t;
+			//std::cout << "non-parallel time: " << t << std::endl;
 		}
 	}
 	MPI_Barrier(MPI_COMM_WORLD);
